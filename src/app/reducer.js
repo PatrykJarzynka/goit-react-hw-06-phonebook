@@ -13,9 +13,10 @@ const reducer = createReducer(initialState, builder => {
       state.contacts.items.push(action.payload);
     })
     .addCase('deleteContact', (state, action) => {
-      state.contacts.items.pop(
-        state.contacts.items.filter(contact => contact.id !== action.payload),
-      );
+      state.contacts.items.pop(action.payload);
+    })
+    .addCase('filterContacts', (state, action) => {
+      state.contacts.filter = action.payload
     });
 });
 

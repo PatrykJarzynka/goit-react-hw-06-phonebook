@@ -11,11 +11,11 @@ const FancyFilter = styled.div({
   flexDirection: 'column',
 });
 
-function Filter({ value, onChange }) {
+function Filter({ onChange }) {
   return (
     <FancyFilter>
       <span>Find contacts by name</span>
-      <FancyFilterInput type="text" name="filter" value={value} onChange={onChange} />
+      <FancyFilterInput type="text" name="filter" onChange={onChange} />
     </FancyFilter>
   );
 }

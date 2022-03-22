@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 import Filter from './components/Filter';
@@ -35,7 +35,8 @@ function App() {
   // }, [contacts])
 
   const deleteContact = key => {
-    dispatch(removeContact(key));
+    const toDelete = contacts.filter(contact => contact.id !== key);
+    dispatch(removeContact(toDelete));
   };
 
   const addContact = (name, number) => {
@@ -50,7 +51,7 @@ function App() {
 
   const handleFilter = event => {
     const value = event.target.value;
-    if (event.target.name === 'filter') filterContacts(value);
+    if (event.target.name === 'filter') dispatch(filterContacts(value));
   };
 
   return (
@@ -58,7 +59,7 @@ function App() {
       <StyledHeader>Phonebook</StyledHeader>
       <ContactForm onSubmit={addContact} />
       <h2>Contacts</h2>
-      <Filter value={filter} onChange={handleFilter} />
+      <Filter onChange={handleFilter} />
       <ContactList list={contacts} filter={filter} onClick={deleteContact} />
     </div>
   );
