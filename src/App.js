@@ -1,5 +1,4 @@
 import './App.css';
-import React, { useEffect } from 'react';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 import Filter from './components/Filter';
@@ -22,18 +21,6 @@ function App() {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const localContacts = localStorage.getItem('contacts');
-  //   const parsedContacts = JSON.parse(localContacts);
-  //   if (parsedContacts) {
-  //     setContacts( parsedContacts);
-  //   }
-  // },[])
-
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts])
-
   const deleteContact = key => {
     const toDelete = contacts.filter(contact => contact.id !== key);
     dispatch(removeContact(toDelete));
@@ -41,12 +28,12 @@ function App() {
 
   const addContact = (name, number) => {
     const contact = { name: name, number: number, id: nanoid() };
+    const foundContant = contacts.find(contact => contact.name === name);
+    if (foundContant) {
+      alert(name + ' is already in contacts');
+      return;
+    }
     dispatch(setContact(contact));
-    // const foundContant = contacts.find(contact => contact.name === name);
-    // if (foundContant) {
-    //   alert(name + ' is already in contacts');
-    //   return;
-    // }
   };
 
   const handleFilter = event => {

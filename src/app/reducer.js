@@ -16,7 +16,7 @@ const reducer = createReducer(initialState, builder => {
       state.contacts.items.pop(action.payload);
     })
     .addCase('filterContacts', (state, action) => {
-      state.contacts.filter = action.payload
+      state.contacts.filter = action.payload;
     });
 });
 
