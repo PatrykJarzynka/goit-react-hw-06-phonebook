@@ -5,39 +5,49 @@ import ContactList from './components/ContactList';
 import Filter from './components/Filter';
 import { nanoid } from 'nanoid';
 import styled from '@emotion/styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { createAction } from '@reduxjs/toolkit';
 
 const StyledHeader = styled.h1({
   marginLeft: 5,
 });
 
-function App(props){
-  const [contacts, setContacts] = useState([]);
-  const [filter, filterContacts] = useState("");
+const setContact = createAction('addContact');
+const filterContacts = createAction('filterContacts')
 
-  useEffect(() => {
-    const localContacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(localContacts);
-    if (parsedContacts) {
-      setContacts( parsedContacts);
-    }
-  },[])
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts])
+
+function App(props) {
   
-  const deleteContact = key => {
-    setContacts(contacts.filter(contact => contact.id !== key));
-  };
+  const contacts = useSelector((state => state.contacts.items))
+  const filter = useSelector((state => state.contacts.filter))
+
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   const localContacts = localStorage.getItem('contacts');
+  //   const parsedContacts = JSON.parse(localContacts);
+  //   if (parsedContacts) {
+  //     setContacts( parsedContacts);
+  //   }
+  // },[])
+
+  // useEffect(() => {
+  //   localStorage.setItem('contacts', JSON.stringify(contacts));
+  // }, [contacts])
+  
+  // const deleteContact = key => {
+  //   setContacts(contacts.filter(contact => contact.id !== key));
+  // };
 
   const addContact = (name, number) => {
     const contact = { name: name, number: number, id: nanoid() };
-    const foundContant = contacts.find(contact => contact.name === name);
-    if (foundContant) {
-      alert(name + ' is already in contacts');
-      return;
-    }
-    setContacts([contact, ...contacts]);
+    dispatch(setContact(contact));
+        // const foundContant = contacts.find(contact => contact.name === name);
+    // if (foundContant) {
+    //   alert(name + ' is already in contacts');
+    //   return;
+    // }
   };
 
   const handleFilter = event => {
@@ -54,7 +64,6 @@ function App(props){
       <ContactList
         list={contacts}
         filter={filter}
-        onClick={deleteContact}
       />
     </div>
   );
